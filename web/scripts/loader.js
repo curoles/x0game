@@ -1,5 +1,22 @@
 var x0game = {};
 
+// Create an object with functions that mimic the window.console object made  
+// available by tools like Firebug or the "Dev Tools" add-on in IE8+  
+x0game.dummyConsole = {  
+  assert : function(){},  
+  log    : function(){},  
+  warn   : function(){},  
+  error  : function(){},  
+  debug  : function(){},  
+  dir    : function(){},  
+  info   : function(){}  
+};
+ 
+if (window.console == undefined) {  
+  window.console = x0game.dummyConsole;  
+}
+
+ 
 // wait untill main document is loaded
 window.addEventListener("load", function() {
 
