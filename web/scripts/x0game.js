@@ -10,9 +10,13 @@ x0game.game = ( function() {
     var screen = $("#" + screenId)[0];
 
     if (activeScreen) {
-      dom.removeClass(screen/*activeScreen FIXME*/, "active");
+      dom.removeClass(activeScreen, "active");
     }
 
+    // run the screen module
+    x0game.screens[screenId].run();
+
+    // display the screen html
     dom.addClass(screen, "active");
   }
 

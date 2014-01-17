@@ -22,11 +22,20 @@ x0game.dom = ( function () {
     }
   }
 
+  function bind(element, event, handler) {
+    console.log("Bind element " + element + " and event " + event);
+    if (typeof element == "string") {
+      element = $(element)[0];
+    }
+    element.addEventListener(event, handler, false);
+  }
+
   return {
     $ : $,
     hasClass : hasClass,
     addClass : addClass,
-    removeClass : removeClass
+    removeClass : removeClass,
+    bind : bind
   };
 
 }) ();

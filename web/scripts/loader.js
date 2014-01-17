@@ -1,4 +1,7 @@
-var x0game = {};
+var x0game = {
+
+  screens : {} // namespace
+};
 
 // Create an object with functions that mimic the window.console object made  
 // available by tools like Firebug or the "Dev Tools" add-on in IE8+  
@@ -28,6 +31,8 @@ Modernizr.load([
     "scripts/sizzle.js",
     "scripts/dom.js",
     "scripts/x0game.js",
+    "scripts/screen.splash.js",
+    "scripts/screen.main-menu.js"
   ],
   // called when all files have finished loading and executing
   complete : function() {
