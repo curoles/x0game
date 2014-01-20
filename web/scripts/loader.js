@@ -37,6 +37,7 @@ Modernizr.load([
   // called when all files have finished loading and executing
   complete : function() {
     console.log("All scripts loaded.");
+    x0game.game.setup();
     // show the first screen
     x0game.game.showScreen("splash-screen");
   }
