@@ -20,6 +20,13 @@ Refs:
   <link rel="stylesheet" href="styles/main.css"/>
   <link rel="stylesheet" href="styles/fontfaces.css"/>
 
+  <!-- Media query applies mobile.css when device has at most 768px
+  wide in portrait mode and 1024px in landscape-->
+  <link rel="stylesheet" href="styles/mobile.css"
+    media="screen and (max-device-width: 768px) and (orientation: portrait)
+    media= screen and (max-device-width: 1024px) and (orientation: landscape)"
+  />
+
   <script src="scripts/modernizr.js"></script>
   <script src="scripts/loader.js"></script>
 </head>
