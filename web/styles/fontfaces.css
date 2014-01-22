@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: "Slackey";
+  font-weight: normal;
+  font-style: normal;
+  src: url("../fonts/slackey.woff") format("woff"),
+       url("../fonts/slackey.ttf") format("truetype")
+}
