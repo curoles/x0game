@@ -17,6 +17,13 @@ var x0game = (function() {
         window.console = x0game_dummyConsole;  
     }
 
+    var settings = {
+        rows : 8,
+        cols : 8,
+        baseScore : 100,
+        numJewelTypes : 7
+    };
+
     var scriptQueue = [],
         numResourcesLoaded = 0,
         numResources = 0,
@@ -47,6 +54,9 @@ var x0game = (function() {
         }
     }
 
+    function getLoadProgress() {
+        return numResourcesLoaded / numResources;
+    }
 
     function load(src, callback) {
         console.log("x0game.load src=" + src);
@@ -72,7 +82,12 @@ var x0game = (function() {
         };
         image.src = src;
     }
-    
+
+    function preload(src) {
+        var image = new Image();
+        image.src = src;
+    }
+
     // hide the active screen (if any) and show the screen
     // with the specified id
     function showScreen(screenId) {
@@ -100,6 +115,10 @@ var x0game = (function() {
 
     function isStandalone() {
         return (window.navigator.standalone !== false);
+    }
+
+    function hasWebWorkers() {
+        return ("Worker" in window);
     }
 
     function setup() {
@@ -168,10 +187,14 @@ var x0game = (function() {
   }
 
     return {
+        getLoadProgress: getLoadProgress,
+        hasWebWorkers: hasWebWorkers,
         isStandalone: isStandalone,
+        preload: preload,
         load: load,
         setup: setup,
-        showScreen : showScreen,
+        showScreen: showScreen,
+        settings: settings,
         screens: {}
     };
 })();

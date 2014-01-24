@@ -56,6 +56,14 @@ Refs:
             if (x0game.isStandalone()) {
                 x0game.load("scripts/screen.splash.js", x0game.setup);
                 x0game.load("scripts/screen.main-menu.js");
+                if (x0game.hasWebWorkers()) {
+                    console.log("use web workers");
+                    x0game.preload("scripts/board.worker.js");
+                    x0game.load("scripts/board.worker-interface.js");
+                } else {
+                    x0game.load("scripts/board.js");
+                }
+                x0game.load("scripts/screen.game.js");
                 x0game.load("scripts/display.canvas.js");
             } else {
                 x0game.load("scripts/screen.install.js", x0game.setup);
@@ -74,6 +82,9 @@ Refs:
 
     <div class="screen" id="splash-screen">
       <h1 class="logo">Tic Tac Toe</h1>
+      <div class="progress">
+        <div class="indicator"></div>
+      </div>
       <span class="continue">Click to continue</span>
     </div>
 
@@ -94,7 +105,16 @@ Refs:
       </ul>
     </div>
 
-    <div class="screen" id="game-screen"></div>
+    <div class="screen" id="game-screen">
+      <div class="game-board"></div>
+      <footer>
+        <button class="exit">Exit</button>
+        <button class="pause">Pause</button>
+      </footer>
+      <div class="pause-overlay">
+        <div class="pause-text">Pause</div>
+      </div>
+    </div>
 
   </div>
 </body>
