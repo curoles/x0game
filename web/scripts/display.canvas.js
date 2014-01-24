@@ -50,6 +50,7 @@ x0game.display = (function() {
 
     function initialize(callback) {
         if (firstRun) {
+            console.log("x0game.display.initialize");
             setup();
             jewelSprite = new Image();
             jewelSprite.addEventListener(
@@ -71,6 +72,8 @@ x0game.display = (function() {
     }
 
     function redraw(newJewels, callback) {
+        //console.log("x0game.display.redraw");
+
         var x, y;
         jewels = newJewels;
         ctx.clearRect(0,0,canvas.width,canvas.height);

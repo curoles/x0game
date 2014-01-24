@@ -5,12 +5,15 @@ x0game.board = (function() {
         messageCount,
         callbacks;
 
+    // run Chrome with --allow-file-access-from-files
     function initialize(callback) {
+        //console.log("x0game.board.initialize;"+callback);
         rows = x0game.settings.rows;
         cols = x0game.settings.cols;
         messageCount = 0;
         callbacks = [];
         worker = new Worker("scripts/board.worker.js");
+        //console.log("worker created"+worker);
         x0game.dom.bind(worker, "message", messageHandler);
         post("initialize", x0game.settings, callback);
     }
@@ -35,10 +38,11 @@ x0game.board = (function() {
     }
 
     function messageHandler(event) {
-        // uncomment to log worker messages
-        // console.log(event.data);
-
         var message = event.data;
+
+        // uncomment to log worker messages
+        //console.log("message:"+message.id+";"+message.data);
+
         jewels = message.jewels;
 
         if (callbacks[message.id]) {

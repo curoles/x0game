@@ -118,7 +118,7 @@ var x0game = (function() {
     }
 
     function hasWebWorkers() {
-        return ("Worker" in window);
+        return ("Worker" in window) && (typeof window.Worker === "function");
     }
 
     function setup() {
