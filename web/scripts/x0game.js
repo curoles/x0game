@@ -1,32 +1,137 @@
-x0game.game = ( function() {
+var x0game = (function() {
 
-  var dom = x0game.dom;
-  var $ = dom.$;
 
-  // hide the active screen (if any) and show the screen with the specified id
-  function showScreen(screenId) {
-    console.log("Show screen: " + screenId);
-    var activeScreen = $("#game .screen.active")[0];
-    var screen = $("#" + screenId)[0];
-
-    if (activeScreen) {
-      dom.removeClass(activeScreen, "active");
+    // Create an object with functions that mimic the window.console object made  
+    // available by tools like Firebug or the "Dev Tools" add-on in IE8+  
+    x0game_dummyConsole = {  
+        assert : function(){},  
+        log    : function(){},  
+        warn   : function(){},  
+        error  : function(){},  
+        debug  : function(){},  
+        dir    : function(){},  
+        info   : function(){}  
+    };
+     
+    if (window.console == undefined) {  
+        window.console = x0game_dummyConsole;  
     }
 
-    // run the screen module
-    x0game.screens[screenId].run();
+    var scriptQueue = [],
+        numResourcesLoaded = 0,
+        numResources = 0,
+        executeRunning = false;
 
-    // display the screen html
-    dom.addClass(screen, "active");
-  }
+    function executeScriptQueue() {
+        var next = scriptQueue[0],
+            first, script;
+        if (next && next.loaded) {
+            console.log("next in script queue is " + next.src);
+
+            executeRunning = true;
+            // remove the first element in the queue
+            scriptQueue.shift();
+            first = document.getElementsByTagName("script")[0];
+            script = document.createElement("script");
+            script.onload = function() {
+                if (next.callback) {
+                    next.callback();
+                }
+                // try to execute more scripts
+                executeScriptQueue();
+            };
+            script.src = next.src;
+            first.parentNode.insertBefore(script, first);
+        } else {
+            executeRunning = false;
+        }
+    }
+
+
+    function load(src, callback) {
+        console.log("x0game.load src=" + src);
+
+        var image, queueEntry;
+        numResources++;
+
+        // add this resource to the execution queue
+        queueEntry = {
+            src: src,
+            callback: callback,
+            loaded: false
+        };
+        scriptQueue.push(queueEntry);
+
+        image = new Image();
+        image.onload = image.onerror = function() {
+            numResourcesLoaded++;
+            queueEntry.loaded = true;
+            if (!executeRunning) {
+                executeScriptQueue();
+            }
+        };
+        image.src = src;
+    }
+    
+    // hide the active screen (if any) and show the screen
+    // with the specified id
+    function showScreen(screenId) {
+        console.log("Show screen: " + screenId);
+
+        var dom = x0game.dom,
+            $ = dom.$,
+            activeScreen = $("#game .screen.active")[0],
+            screen = $("#" + screenId)[0];
+
+        if (!x0game.screens[screenId]) {
+            alert("This module is not implemented yet!");
+            return;
+        }
+
+        if (activeScreen) {
+            dom.removeClass(activeScreen, "active");
+        }
+
+        dom.addClass(screen, "active");
+
+        // run the screen module
+        x0game.screens[screenId].run();
+    }
+
+    function isStandalone() {
+        return (window.navigator.standalone !== false);
+    }
+
+    function setup() {
+        console.log("x0game.setup");
+
+        // hide the address bar on Android devices
+        if (/Android/.test(navigator.userAgent)) {
+            x0game.dom.$("html")[0].style.height = "200%";
+            setTimeout(function() {
+                window.scrollTo(0, 1);
+            }, 0);
+        }
+
+        // disable native touchmove behavior to 
+        // prevent overscroll
+        x0game.dom.bind(document, "touchmove", function(event) {
+            event.preventDefault();
+        });
+
+        if (isStandalone()) {
+            showScreen("splash-screen");
+        } else {
+            showScreen("install-screen");
+        }
+
+        createBackground();
+    }
+
 
   // create background pattern
   function createBackground() {
-
-    if (!Modernizr.canvas) {
-      //console.log("canvas not supported");
-      //return;
-    }
+    var dom = x0game.dom, $ = dom.$;
 
     var canvas = document.createElement("canvas");
     var graph = canvas.getContext("2d");
@@ -62,15 +167,11 @@ x0game.game = ( function() {
     background.appendChild(canvas);
   }
 
-  function setup() {
-    console.log("game setup")
-    createBackground();
-  }
-
-  // expose public methods
-  return {
-    setup : setup,
-    showScreen : showScreen
-  };
-
-}) ();
+    return {
+        isStandalone: isStandalone,
+        load: load,
+        setup: setup,
+        showScreen : showScreen,
+        screens: {}
+    };
+})();

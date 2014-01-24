@@ -1,7 +1,7 @@
 
 x0game.screens["main-menu"] = (function() {
 
-  var game = x0game.game;
+  var game = x0game;
   var dom = x0game.dom;
   var first_run = true;
 

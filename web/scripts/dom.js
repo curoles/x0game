@@ -1,6 +1,9 @@
 x0game.dom = ( function () {
 
-  var $ = Sizzle;
+  function $(path, parent) {
+    parent = parent || document;
+    return parent.querySelectorAll(path);
+  }
 
   function hasClass(el, clsName) {
     var regex = new RegExp("(^|\\s)" + clsName + "(\\s|$)");
