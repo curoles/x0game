@@ -224,3 +224,12 @@ ul.menu li button:active {
     float: right;
 }
 
+/* About screen */
+#about-screen h2 {
+    margin-top : 0.25em;
+    font-size : 1.25em;
+}
+
+#about-screen footer button.back {
+    float: left;
+}
