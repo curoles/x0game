@@ -4,7 +4,6 @@ x0game.display = (function() {
         cursor,
         jewelSize,
         jewels,
-        jewelSprite,
         firstRun = true;
 
     function createBackground() {
@@ -15,15 +14,19 @@ x0game.display = (function() {
         background.width = cols * jewelSize;
         background.height = rows * jewelSize;
 
-        bgctx.fillStyle = "rgba(225,235,255,0.15)";
         for (var x=0;x<cols;x++) {
             for (var y=0;y<cols;y++) {
                 if ((x+y) % 2) {
-                    bgctx.fillRect(
-                        x * jewelSize, y * jewelSize,
-                        jewelSize, jewelSize
-                    );
+                    bgctx.fillStyle = "rgba(225,235,255,0.15)";
                 }
+                else {
+                    bgctx.fillStyle = "rgba(30,30,30,0.25)";
+                }
+
+                bgctx.fillRect(
+                    x * jewelSize, y * jewelSize,
+                    jewelSize, jewelSize
+                );
             }
         }
         return background;
@@ -55,23 +58,32 @@ x0game.display = (function() {
         if (firstRun) {
             console.log("x0game.display.initialize");
             setup();
-            jewelSprite = new Image();
-            jewelSprite.addEventListener(
-                "load", callback, false);
-            jewelSprite.src = 
-                "images/jewels" + jewelSize + ".png";
             firstRun = false;
-        } else {
+        } //else {
             callback();
-        }
+        //}
     }
 
-    function drawJewel(type, x, y) {
-        ctx.drawImage(jewelSprite,
-            type * jewelSize, 0, jewelSize, jewelSize,
-            x * jewelSize, y * jewelSize,
-            jewelSize, jewelSize
-        );
+    function drawJewel(type, bx, by) {
+        console.log("draw jewel type "+type+", x:y="+bx+":"+by);
+
+        x = bx * jewelSize;
+        y = by * jewelSize;
+
+        margin = jewelSize / 10;
+        ctx.beginPath();
+        ctx.moveTo(x + margin, y + margin);
+        ctx.lineTo(x + jewelSize - margin, y + margin);
+        ctx.lineTo(x + jewelSize - margin, y + jewelSize - margin);
+        ctx.lineTo(x + margin, y + jewelSize - margin);
+        ctx.closePath();
+
+        ctx.fillStyle = "rgba(30, 200, 30, 0.5)";
+        ctx.fill();
+
+        ctx.strokeStyle = "rgb(20, 255, 20)";
+        ctx.lineWidth = 2.0;
+        ctx.stroke();
     }
 
     function redraw(newJewels, callback) {

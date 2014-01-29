@@ -18,8 +18,8 @@ var x0game = (function() {
     }
 
     var settings = {
-        rows : 8,
-        cols : 8,
+        rows : 3,
+        cols : 3,
         baseScore : 100,
         numJewelTypes : 7,
 

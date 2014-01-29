@@ -7,6 +7,7 @@ x0game.board = (function() {
         numJewelTypes;
 
     function initialize(callback) {
+        //console.log("board.initialize");
         settings = x0game.settings;
         numJewelTypes = settings.numJewelTypes;
         baseScore = settings.baseScore;

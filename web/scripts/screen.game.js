@@ -9,6 +9,7 @@ x0game.screens["game-screen"] = (function() {
 
         board.initialize(function() {
             display.initialize(function() {
+                console.log("display.initialize helper");
                 cursor = {x:0, y:0, selected:false};
                 display.redraw(board.getBoard(), function() {
                     // do nothing for now
