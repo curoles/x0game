@@ -70,11 +70,9 @@ x0game.display = (function() {
         x = bx * jewelSize;
         y = by * jewelSize;
 
-        if (type == 0) {
-            drawJewelX(x, y);
-        }
-        else {
-            drawJewelO(x, y);
+        switch (type) {
+            case 0: drawJewelX(x, y); break;
+            case 1: drawJewelO(x, y); break;
         }
     }
 

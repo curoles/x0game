@@ -33,26 +33,23 @@ x0game.screens["game-screen"] = (function() {
             selectJewel(cursor.x, cursor.y);
             return;
         }
+
+        x0game.board.setX(x, y, playBoardEvents);
+
+        // move cursor
         if (cursor.selected) {
             var dx = Math.abs(x - cursor.x),
                 dy = Math.abs(y - cursor.y),
                 dist = dx + dy;
 
-            if (dist === 0) {
-                // deselected the selected jewel
-                setCursor(x, y, false);
-            } else if (dist == 1) {
-                // selected an adjacent jewel
-                x0game.board.swap(cursor.x, cursor.y, 
-                    x, y, playBoardEvents);
-                setCursor(x, y, false);
-            } else {
-                // selected a different jewel
+            if (dist) {
                 setCursor(x, y, true);
             }
+
         } else {
             setCursor(x, y, true);
         }
+
     }
 
     function playBoardEvents(events) {
@@ -79,6 +76,7 @@ x0game.screens["game-screen"] = (function() {
         } else {
             display.redraw(x0game.board.getBoard(), function() {
                 // good to go again
+                console.log("playBoardEvents default");
             });
         }
     }
@@ -90,7 +88,7 @@ x0game.screens["game-screen"] = (function() {
             y += cursor.y;
             if (x >= 0 && x < settings.cols &&
                 y >= 0 && y < settings.rows) {
-                selectJewel(x, y);
+                setCursor(x, y, true);
             }
         } else {
             x = (cursor.x + x + settings.cols) % settings.cols;

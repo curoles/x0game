@@ -19,37 +19,77 @@ x0game.board = (function() {
         var x, y,
             type;
         jewels = [];
+
         for (x = 0; x < cols; x++) {
             jewels[x] = [];
             for (y = 0; y < rows; y++) {
-                type = randomJewel();
-                while ((type === getJewel(x-1, y) &&
+                type = -1 ;//randomJewel();
+                /*while ((type === getJewel(x-1, y) &&
                         type === getJewel(x-2, y)) ||
                        (type === getJewel(x, y-1) &&
                         type === getJewel(x, y-2))) {
                     type = randomJewel();
-                }
+                }*/
                 jewels[x][y] = type;
             }
         }
         // try again if new board has no moves
-        if (!hasMoves()) {
-            fillBoard();
-        }
+        //if (!hasMoves()) {
+        //    fillBoard();
+        //}
+
     }
 
+/*
     function randomJewel() {
         return Math.floor(Math.random() * 2);
     }
-
+*/
     function getJewel(x, y) {
         if (x < 0 || x > cols-1 || y < 0 || y > rows-1) {
-            return -1;
+            return -2;
         } else {
             return jewels[x][y];
         }
     }
 
+    // if possible, set X at x:y and
+    // calls the callback function with list of board events
+    function setX(x, y, callback) {
+        var current;
+        var events;
+
+        //console.log("board.setX "+x+":"+y+", cb="+callback);
+
+        current = getJewel(x , y);
+
+        if (current === -2) {
+            // illegal position
+        }
+        else if (current == -1) {
+            jewels[x][y] = 0; // set X
+            callback([]);
+        }
+/*
+        if (canSwap(x1, y1, x2, y2)) {
+
+            // swap the jewels
+            tmp = getJewel(x1, y1);
+            jewels[x1][y1] = getJewel(x2, y2);
+            jewels[x2][y2] = tmp;
+
+            // check the board and get list of events
+            events = check();
+
+            callback(events);
+        } else {
+            callback(false);
+        }
+*/
+    }
+
+
+/*
     // returns the number jewels in the longest chain
     // that includes (x,y)
     function checkChain(x, y) {
@@ -74,7 +114,8 @@ x0game.board = (function() {
         }
         return Math.max(left + 1 + right, up + 1 + down);
     }
-
+*/
+/*
     // returns true if (x1,y1) can be swapped with (x2,y2)
     // to form a new match
     function canSwap(x1, y1, x2, y2) {
@@ -99,14 +140,18 @@ x0game.board = (function() {
 
         return chain;
     }
+*/
 
+/*
     // returns true if (x1,y1) is adjacent to (x2,y2)
     function isAdjacent(x1, y1, x2, y2) {
         var dx = Math.abs(x1 - x2),
             dy = Math.abs(y1 - y2);
         return (dx + dy === 1);
     }
+*/
 
+/*
     // returns a two-dimensional map of chain-lengths
     function getChains() {
         var x, y,
@@ -120,7 +165,8 @@ x0game.board = (function() {
         }
         return chains;
     }
-
+*/
+/*
     function check(events) {
         var chains = getChains(), 
             hadChains = false, score = 0,
@@ -189,7 +235,8 @@ x0game.board = (function() {
             return events;
         }
     }
-
+*/
+/*
     // if possible, swaps (x1,y1) and (x2,y2) and
     // calls the callback function with list of board events
     function swap(x1, y1, x2, y2, callback) {
@@ -211,7 +258,8 @@ x0game.board = (function() {
             callback(false);
         }
     }
-
+*/
+/*
     // returns true if at least one match can be made
     function hasMoves() {
         for (var x = 0; x < cols; x++) {
@@ -223,7 +271,8 @@ x0game.board = (function() {
         }
         return false;
     }
-
+*/
+/*
     // returns true if (x,y) is a valid position and if 
     // the jewel at (x,y) can be swapped with a neighbor
     function canJewelMove(x, y) {
@@ -232,6 +281,7 @@ x0game.board = (function() {
                 (y > 0 && canSwap(x, y, x , y-1)) ||
                 (y < rows-1 && canSwap(x, y, x , y+1)));
     }
+*/
 
     // create a copy of the jewel board
     function getBoard() {
@@ -256,8 +306,7 @@ x0game.board = (function() {
 
     return {
         initialize : initialize,
-        swap : swap,
-        canSwap : canSwap,
+        setX : setX,
         getBoard : getBoard,
         print : print
     };

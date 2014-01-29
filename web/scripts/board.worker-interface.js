@@ -28,12 +28,10 @@ x0game.board = (function() {
         messageCount++;
     }
 
-    function swap(x1, y1, x2, y2, callback) {
-        post("swap", {
-            x1 : x1,
-            y1 : y1,
-            x2 : x2,
-            y2 : y2
+    function setX(x, y, callback) {
+        post("setX", {
+            x : x,
+            y : y
         }, callback);
     }
 
@@ -83,7 +81,7 @@ x0game.board = (function() {
 
     return {
         initialize : initialize,
-        swap : swap,
+        setX : setX,
         getBoard : getBoard,
         print : print
     };
