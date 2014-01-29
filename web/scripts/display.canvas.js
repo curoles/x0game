@@ -70,19 +70,59 @@ x0game.display = (function() {
         x = bx * jewelSize;
         y = by * jewelSize;
 
+        if (type == 0) {
+            drawJewelX(x, y);
+        }
+        else {
+            drawJewelO(x, y);
+        }
+    }
+
+    function drawJewelX(x, y) {
         margin = jewelSize / 10;
         ctx.beginPath();
         ctx.moveTo(x + margin, y + margin);
-        ctx.lineTo(x + jewelSize - margin, y + margin);
-        ctx.lineTo(x + jewelSize - margin, y + jewelSize - margin);
-        ctx.lineTo(x + margin, y + jewelSize - margin);
-        ctx.closePath();
+        //ctx.lineTo(x + jewelSize - margin, y + margin);
+        ctx.quadraticCurveTo(x + jewelSize/2, y + jewelSize/2, x + jewelSize - margin, y + margin);
+        //ctx.lineTo(x + jewelSize - margin, y + jewelSize - margin);
+        ctx.quadraticCurveTo(x + jewelSize/2, y + jewelSize/2, x + jewelSize - margin, y + jewelSize - margin);
+        //ctx.lineTo(x + margin, y + jewelSize - margin);
+        ctx.quadraticCurveTo(x + jewelSize/2, y + jewelSize/2, x + margin, y + jewelSize - margin);
+        //ctx.closePath();
+        ctx.quadraticCurveTo(x + jewelSize/2, y + jewelSize/2, x + margin, y + margin);
+
+        ctx.shadowColor = "rgb(20, 20, 20)";
+        ctx.shadowOffsetX = margin/2;
+        ctx.shadowOffsetY = margin/2;
+        ctx.shadowBlur = margin/2;
 
         ctx.fillStyle = "rgba(30, 200, 30, 0.5)";
         ctx.fill();
 
         ctx.strokeStyle = "rgb(20, 255, 20)";
         ctx.lineWidth = 2.0;
+        ctx.shadowColor = "transparent";
+        ctx.stroke();
+    }
+
+    function drawJewelO(x, y) {
+        margin = jewelSize / 10;
+
+        ctx.beginPath();
+        ctx.arc(x + jewelSize/2, y + jewelSize/2, jewelSize/3,
+            0, 2 * Math.PI, true);
+
+        ctx.shadowColor = "rgb(20, 20, 20)";
+        ctx.shadowOffsetX = margin/2;
+        ctx.shadowOffsetY = margin/2;
+        ctx.shadowBlur = margin/2;
+
+        ctx.fillStyle = "rgba(200, 20, 30, 0.5)";
+        ctx.fill();
+
+        ctx.strokeStyle = "rgb(255, 20, 20)";
+        ctx.lineWidth = 2.0;
+        ctx.shadowColor = "transparent";
         ctx.stroke();
     }
 

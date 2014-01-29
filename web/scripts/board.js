@@ -2,15 +2,11 @@ x0game.board = (function() {
     var settings,
         jewels,
         cols,
-        rows,
-        baseScore,
-        numJewelTypes;
+        rows;
 
     function initialize(callback) {
         //console.log("board.initialize");
         settings = x0game.settings;
-        numJewelTypes = settings.numJewelTypes;
-        baseScore = settings.baseScore;
         cols = settings.cols;
         rows = settings.rows;
         fillBoard();
@@ -43,7 +39,7 @@ x0game.board = (function() {
     }
 
     function randomJewel() {
-        return Math.floor(Math.random() * numJewelTypes);
+        return Math.floor(Math.random() * 2);
     }
 
     function getJewel(x, y) {
@@ -141,9 +137,6 @@ x0game.board = (function() {
                         x : x, y : y,
                         type : getJewel(x, y)
                     });
-                    // add points to score
-                    score += baseScore *
-                             Math.pow(2, (chains[x][y] - 3));
 
                 } else if (gaps[x] > 0) {
                     moved.push({

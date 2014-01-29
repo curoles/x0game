@@ -20,8 +20,6 @@ var x0game = (function() {
     var settings = {
         rows : 3,
         cols : 3,
-        baseScore : 100,
-        numJewelTypes : 7,
 
         controls : {
             // keyboard
