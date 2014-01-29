@@ -68,6 +68,10 @@ x0game.board = (function() {
         }
         else if (current == -1) {
             jewels[x][y] = 0; // set X
+            // TODO FIXME TODO FIXME
+            xO=Math.floor(Math.random()*3);
+            yO=Math.floor(Math.random()*3);
+            jewels[xO][yO] = 1; // set O
             callback([]);
         }
 /*
