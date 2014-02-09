@@ -105,10 +105,10 @@ var x0game = (function() {
         image.src = src;
     }
 
-    // hide the active screen (if any) and show the screen
+    // hide the active screen (if any) and show the scrfile:///home/igor/prj/github/x0game/x0game/web/x0g.htmleen
     // with the specified id
     function showScreen(screenId) {
-        console.log("Show screen: " + screenId);
+        console.log("Show screen: " + screenId);file:///home/igor/prj/github/x0game/x0game/web/x0g.html
 
         var dom = x0game.dom,
             $ = dom.$,

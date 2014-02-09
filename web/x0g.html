@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <!--
-@brief
+@brief  Main HTML page for Tic-Tac-Tou game
 @author Igor Lesik 2014
 
 Refs:
- Jacob Seidelin, HTML5 Games
+ Book by Jacob Seidelin, HTML5 Games
 
 -->
 
@@ -14,10 +14,19 @@ Refs:
   <meta charset="UTF-8">
   <title>Tic-Tac-Toe</title>
 
+  <meta name="author" content="Igor Lesik">
+  <meta name="description" content="Tic-Tac-Tou game, игра Крестики-нолики">
+  <meta name="keywords" content="Igor Lesik, Tic-Tac-Tou, Крестики-нолики, game, игра, HTML5">
+
   <meta name="viewport"
     content="width=device-width, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <!-- Russian version
+  <link rel="alternate" type="text/html" href="x0ru.html" title="Крестики-нолики Russian"-->
+
+  <link rel="icon" href="images/web-icon.png">
 
   <link rel="stylesheet" href="styles/main.css"/>
   <link rel="stylesheet" href="styles/fontfaces.css"/>
@@ -49,6 +58,8 @@ Refs:
           href="images/ios-startup-320x460.png"
           media="screen and (max-device-width:320px)"/>
 
+    <noscript>JavaScript Not Enabled!</noscript>
+
     <script src="scripts/x0game.js"></script>
     <script>
         window.addEventListener("load", function() {
@@ -70,9 +81,17 @@ Refs:
             } else {
                 x0game.load("scripts/screen.install.js", x0game.setup);
             }    
-        },
-        false /*=useCapture*/
-        );
+        }, false /*=useCapture*/);
+
+        window.addEventListener("unload", function() {
+            //alert("Nice playing with you! Goodbye!");
+        }, false /*=useCapture*/);
+
+        window.addEventListener("beforeunload", function (e) {
+            (e || window.event).returnValue = "Leaving?";  
+            return "Leaving?";
+        },false);
+
     </script>
 
 </head>
@@ -125,6 +144,20 @@ Refs:
         <button class="back">Back</button>
       </footer>
     </div>
+
+   <div class="screen" id="exit-screen" style="font-size:12px">
+     <var>navigator</var> is:<br>
+     <q><script>document.write(navigator.appName)</script></q><br>
+     <q><script>document.write(navigator.appCodeName)</script></q><br>
+     <q><script>document.write(navigator.appVersion)</script></q><br>
+     <hr>
+     <pre><code>x0game.screens["exit-screen"] = (function() {
+    ...
+    window.close()
+     </code></pre>
+     <samp>window.close</samp> does not work on Firefox w/o <samp>window.open</samp>
+
+   </div>
 
   </div>
 </body>
