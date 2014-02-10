@@ -141,7 +141,7 @@ Refs:
       <h2 class="logo">Made by</h2>
       <h3 style="text-align:center">Anthony and Igor Lesik 2014</h3>
       <footer>
-        <button class="back">Back</button>
+        <button class="back" onclick="document.getElementById('onX').play()">Back</button>
       </footer>
     </div>
 
@@ -158,6 +158,11 @@ Refs:
      <samp>window.close</samp> does not work on Firefox w/o <samp>window.open</samp>
 
    </div>
+
+   <audio id="onX">
+	<source src="sounds/we.mp3" preload="auto"></source>
+	<source src="sounds/we.ogg" preload="auto"></source>
+   </audio>
 
   </div>
 </body>
