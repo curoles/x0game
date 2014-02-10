@@ -77,6 +77,7 @@ Refs:
                 x0game.load("scripts/screen.game.js");
                 x0game.load("scripts/display.canvas.js");
                 x0game.load("scripts/screen.about.js");
+                x0game.load("scripts/screen.rules.js");
                 x0game.load("scripts/input.js");
             } else {
                 x0game.load("scripts/screen.install.js", x0game.setup);
@@ -121,6 +122,7 @@ Refs:
       <h2 class="logo">X0</h2>
       <ul class="menu">
         <li><button name="game-screen">Play</button>
+        <li><button name="rules-screen">Rules</button>
         <li><button name="about-screen">About</button>
         <li><button name="exit-screen">Exit</button>
       </ul>
@@ -140,6 +142,21 @@ Refs:
     <div class="screen" id="about-screen">
       <h2 class="logo">Made by</h2>
       <h3 style="text-align:center">Anthony and Igor Lesik 2014</h3>
+      <footer>
+        <button class="back" onclick="document.getElementById('onX').play()">Back</button>
+      </footer>
+    </div>
+
+    <div class="screen" id="rules-screen">
+      <h2 class="logo">Rules</h2>
+      <div style="font-size:0.4em">
+      There are 2 players in this game: you and Machine.
+      Both take turns and put marks on the 3x3 board, your mark is X,
+      machine puts O.
+      Your move is first, just click or touch any available field
+      on the board. The one who succeeds in placing three respective
+      marks in a horizontal, vertical, or diagonal row wins the game.
+      </div>
       <footer>
         <button class="back" onclick="document.getElementById('onX').play()">Back</button>
       </footer>

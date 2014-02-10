@@ -233,3 +233,13 @@ ul.menu li button:active {
 #about-screen footer button.back {
     float: left;
 }
+
+/* Rules screen */
+#rules-screen h2 {
+    margin-top : 0.25em;
+    font-size : 1.25em;
+}
+
+#rules-screen footer button.back {
+    float: left;
+}
