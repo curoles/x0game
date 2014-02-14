@@ -23,20 +23,10 @@ x0game.board = (function() {
         for (x = 0; x < cols; x++) {
             jewels[x] = [];
             for (y = 0; y < rows; y++) {
-                type = -1 ;//randomJewel();
-                /*while ((type === getJewel(x-1, y) &&
-                        type === getJewel(x-2, y)) ||
-                       (type === getJewel(x, y-1) &&
-                        type === getJewel(x, y-2))) {
-                    type = randomJewel();
-                }*/
+                type = -1 ; // no mark, field is available
                 jewels[x][y] = type;
             }
         }
-        // try again if new board has no moves
-        //if (!hasMoves()) {
-        //    fillBoard();
-        //}
 
     }
 
