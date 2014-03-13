@@ -41,6 +41,13 @@ var x0game = (function() {
         }
     };
 
+    var gameStatus = {
+        PLAYING:     0,
+        NO_MOVES:    1,
+        USER_WON:    2,
+        MACHINE_WON: 3
+    };
+ 
     var scriptQueue = [],
         numResourcesLoaded = 0,
         numResources = 0,
@@ -212,6 +219,7 @@ var x0game = (function() {
         setup: setup,
         showScreen: showScreen,
         settings: settings,
+        gameStatus: gameStatus,
         screens: {}
     };
 })();

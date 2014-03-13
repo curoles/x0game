@@ -216,12 +216,29 @@ x0game.display = (function() {
         );
     }
 
+    function endGame(result, callback) {
+        //console.log("x0game.display.endGame");
+        resultStr = "Draw";
+        switch (result)
+        {
+        case x0game.gameStatus.NO_MOVES: resultStr = "Draw"; break;
+        case x0game.gameStatus.USER_WON: resultStr = "You won!"; break;
+        case x0game.gameStatus.MACHINE_WON: resultStr = "You lost :)"; break;
+        default:
+            alert("Illegal game status!");
+        }
+        alert("Game is over! " + resultStr);
+
+        callback();
+    }
+
     return {
         initialize : initialize,
         redraw : redraw,
         setCursor : setCursor,
         moveJewels : moveJewels,
         removeJewels : removeJewels,
-        refill : redraw
+        refill : redraw,
+        endGame : endGame
     };
 })();

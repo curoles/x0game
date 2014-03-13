@@ -69,6 +69,9 @@ x0game.screens["game-screen"] = (function() {
                 case "refill" :
                     display.refill(boardEvent.data, next);
                     break;
+                case "endgame" :
+                    display.endGame(boardEvent.data, next);
+                    break;
                 default :
                     next();
                     break;

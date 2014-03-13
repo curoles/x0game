@@ -58,30 +58,117 @@ x0game.board = (function() {
         }
         else if (current == -1) {
             jewels[x][y] = 0; // set X
-            // TODO FIXME TODO FIXME
-            xO=Math.floor(Math.random()*3);
-            yO=Math.floor(Math.random()*3);
-            jewels[xO][yO] = 1; // set O
-            callback([]);
+
+            game_status = checkGameOver();
+
+            if (game_status != 0/*PLAYING*/) {
+                stopGame(game_status, callback);
+            }
+            else
+            {
+                makeNextMove(x, y); // set O
+                game_status = checkGameOver();
+                if (game_status != 0/*PLAYING*/) {
+                    stopGame(game_status, callback);
+                }
+                else {
+                    callback([]);
+                }
+            }
         }
-/*
-        if (canSwap(x1, y1, x2, y2)) {
-
-            // swap the jewels
-            tmp = getJewel(x1, y1);
-            jewels[x1][y1] = getJewel(x2, y2);
-            jewels[x2][y2] = tmp;
-
-            // check the board and get list of events
-            events = check();
-
-            callback(events);
-        } else {
-            callback(false);
-        }
-*/
     }
 
+    function checkGameOver() {
+        result = 0; // PLAYING
+        free = 0;
+        X_x_strike = [0,0,0]; O_x_strike = [0,0,0];
+        X_y_strike = 0; O_y_strike = 0;
+
+        for (x = 0; x < cols; x++) {
+            X_y_strike = 0; O_y_strike = 0;
+            for (y = 0; y < rows; y++) {
+                type = jewels[x][y];
+                if (type === -1) {
+                    free += 1;
+                }
+                else if (type == 0) {
+                    X_y_strike += 1;
+                    X_x_strike[y] += 1;
+                }
+                else if (type == 1) {
+                    O_y_strike += 1;
+                    O_x_strike[y] += 1;
+                }
+            }
+
+            if (X_y_strike === 3
+            || X_x_strike[0] === 3 || X_x_strike[2] === 3 || X_x_strike[2] === 3) {
+                result = 2; //USER_WON
+                break;
+            }
+            else if (O_y_strike === 3
+            || O_x_strike[0] === 3|| O_x_strike[1] === 3|| O_x_strike[2] === 3) {
+                result = 3; //MACHINE_WON
+                break;
+            }
+
+        }
+
+
+        if (result != 2 && result != 3 && free === 0) {
+            result = 1; //NO_MOVES
+        }
+
+        return result;
+    }
+
+    function stopGame(game_status, callback) {
+        events = [];
+
+        events.push({
+            type : "refill",
+            data : getBoard()
+        });
+
+        events.push({
+            type : "endgame",
+            data : game_status
+        });
+
+        fillBoard();
+        events.push({
+            type : "refill",
+            data : getBoard()
+        });
+
+        callback(events);
+    }
+
+    function makeNextMove(xX, yX) {
+        pos = makeDumbMove();
+
+        if (pos.valid) {
+            jewels[pos.x][pos.y] = 1; // set O mark
+        }
+    }
+
+    function makeDumbMove() {
+        V = false;
+        X = -1; //Math.floor(Math.random()*3);
+        Y = -1; //Math.floor(Math.random()*3);
+
+        for (x = 0; x < cols; x++) {
+            for (y = 0; y < rows; y++) {
+                type = jewels[x][y];
+                if (type === -1) {
+                    V = true; X = x; Y = y;
+                    break;
+                }
+            }
+        }
+
+        return {valid: V, x: X, y: Y};
+    }
 
 /*
     // returns the number jewels in the longest chain
