@@ -83,30 +83,36 @@ x0game.board = (function() {
         free = 0;
         X_x_strike = [0,0,0]; O_x_strike = [0,0,0];
         X_y_strike = 0; O_y_strike = 0;
+        X_diag_strike = 0; O_diag_strike = 0;
+        X_diag2_strike = 0; O_diag2_strike = 0;
 
         for (x = 0; x < cols; x++) {
             X_y_strike = 0; O_y_strike = 0;
             for (y = 0; y < rows; y++) {
                 type = jewels[x][y];
                 if (type === -1) {
-                    free += 1;
+                    free++;
                 }
                 else if (type == 0) {
-                    X_y_strike += 1;
-                    X_x_strike[y] += 1;
+                    X_y_strike++;
+                    X_x_strike[y]++;
+                    if (x == y) {X_diag_strike++;}
+                    if (x == (2-y)) {X_diag2_strike++;}
                 }
                 else if (type == 1) {
-                    O_y_strike += 1;
-                    O_x_strike[y] += 1;
+                    O_y_strike++;
+                    O_x_strike[y]++;
+                    if (x == y) {O_diag_strike++;}
+                    if (x == (2-y)) {O_diag2_strike++;}
                 }
             }
 
-            if (X_y_strike === 3
-            || X_x_strike[0] === 3 || X_x_strike[2] === 3 || X_x_strike[2] === 3) {
+            if (X_y_strike === 3 || X_diag_strike === 3 || X_diag2_strike === 3
+            || X_x_strike[0] === 3 || X_x_strike[1] === 3 || X_x_strike[2] === 3) {
                 result = 2; //USER_WON
                 break;
             }
-            else if (O_y_strike === 3
+            else if (O_y_strike === 3 || O_diag_strike === 3 || O_diag2_strike === 3
             || O_x_strike[0] === 3|| O_x_strike[1] === 3|| O_x_strike[2] === 3) {
                 result = 3; //MACHINE_WON
                 break;
@@ -145,7 +151,21 @@ x0game.board = (function() {
     }
 
     function makeNextMove(xX, yX) {
-        pos = makeDumbMove();
+        var pos = {valid: false};
+        var moveNum = getNumMarks(0);
+
+        if (moveNum == 1) {
+            pos = makeFirstMove();
+        }
+        else {
+            evaluation = evaluate();
+            if (evaluation.danger === true) {
+                pos = preventStrike(evaluation);
+            }
+            else {
+                pos = makeDumbMove();
+            }
+        }
 
         if (pos.valid) {
             jewels[pos.x][pos.y] = 1; // set O mark
@@ -160,14 +180,91 @@ x0game.board = (function() {
         for (x = 0; x < cols; x++) {
             for (y = 0; y < rows; y++) {
                 type = jewels[x][y];
-                if (type === -1) {
+                if (type == -1) {
                     V = true; X = x; Y = y;
                     break;
                 }
             }
+            if (V) break;
         }
 
         return {valid: V, x: X, y: Y};
+    }
+
+    // Get number of marks (moves) on the board
+    function getNumMarks(type) {
+        var n = 0;
+
+        for (x = 0; x < cols; x++) {
+            for (y = 0; y < rows; y++) {
+                if (jewels[x][y] == type) {
+                    n++;
+                }
+            }
+        }
+
+        return n;
+    }
+
+    function makeFirstMove() {
+        V = false;
+        X = -1;
+        Y = -1;
+
+        if (jewels[1][1] == -1) { // centre is available
+            V = true; X = 1; Y = 1;
+        }
+        else { // set mark in any available corner
+            for (x = 0; x < cols; x+=2) {
+                for (y = 0; y < rows; y+=2) {
+                    type = jewels[x][y];
+                    if (type == -1) {
+                        V = true; X = x; Y = y;
+                        break;
+                    }
+                }
+                if (V) break;
+            }
+        }
+
+        return {valid: V, x: X, y: Y};
+    }
+
+
+    function evaluate() {
+        var danger = false, X = -1, Y = -1;
+
+        for (x = 0; x < cols; x++) {
+            for (y = 0; y < rows; y++) {
+                it = jewels[x][y];
+                if (it != 0/*X*/) continue;
+                right = jewels[(x+1)%cols][y];
+                down = jewels[x][(y+1)%rows];
+
+                if (it == down && jewels[x][(y+2)%rows] === -1) {
+                    danger = true; X = x; Y = (y + 2)%rows;
+                    break;
+                }
+                else if (it == right && jewels[(x+2)%cols][y] === -1) {
+                    danger = true; X = (x + 2)%cols; Y = y;
+                    break;
+                }
+                else if (x == y) {
+                    //danger = true; X = x; Y = (y + 2)%rows;
+                    //break;
+                }
+                else if (x == 2-y) {
+
+                }
+            }
+            if (danger) break;
+        }
+
+        return {danger: danger, x: X, y: Y};
+    }
+
+    function preventStrike(evaluation) {
+        return {valid: true, x: evaluation.x, y: evaluation.y};
     }
 
 /*
