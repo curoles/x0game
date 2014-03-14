@@ -158,12 +158,18 @@ x0game.board = (function() {
             pos = makeFirstMove();
         }
         else {
-            evaluation = evaluate();
-            if (evaluation.danger === true) {
-                pos = preventStrike(evaluation);
+            nextMoveWins = evaluate(1/*O*/);
+            if (nextMoveWins.danger) {
+                pos = {valid: true, x: nextMoveWins.x, y: nextMoveWins.y};
             }
             else {
-                pos = makeDumbMove();
+                evaluation = evaluate(0/*X*/);
+                if (evaluation.danger === true) {
+                    pos = preventStrike(evaluation);
+                }
+                else {
+                    pos = makeDumbMove();
+                }
             }
         }
 
@@ -231,13 +237,13 @@ x0game.board = (function() {
     }
 
 
-    function evaluate() {
+    function evaluate(type) {
         var danger = false, X = -1, Y = -1;
 
         for (x = 0; x < cols; x++) {
             for (y = 0; y < rows; y++) {
                 it = jewels[x][y];
-                if (it != 0/*X*/) continue;
+                if (it != type) continue;
                 right = jewels[(x+1)%cols][y];
                 down = jewels[x][(y+1)%rows];
 
@@ -249,12 +255,27 @@ x0game.board = (function() {
                     danger = true; X = (x + 2)%cols; Y = y;
                     break;
                 }
-                else if (x == y) {
-                    //danger = true; X = x; Y = (y + 2)%rows;
-                    //break;
-                }
-                else if (x == 2-y) {
+                else {
 
+                    if (x == y) {
+                        next = jewels[(x+1)%cols][(y+1)%rows];
+                        other = jewels[(x+2)%cols][(y+2)%rows];
+
+                        if (it == next && other === -1) {
+                            danger = true; X = (x + 2)%cols; Y = (y + 2)%rows;
+                            break;
+                        }
+                    }
+
+                    if (x == 2-y) {
+                        next = jewels[(x-1+cols)%cols][(y+1)%rows];
+                        other = jewels[(x-2+cols)%cols][(y+2)%rows];
+
+                        if (it == next && other === -1) {
+                            danger = true; X = (x - 2 + cols)%cols; Y = (y + 2)%rows;
+                            break;
+                        }
+                    }
                 }
             }
             if (danger) break;
