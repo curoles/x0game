@@ -1,6 +1,7 @@
 /**@file
- * @brief  Tic-Tac-Toe board
- * @author Igor Lesik 2014
+ * @brief     Tic-Tac-Toe board
+ * @author    Igor Lesik
+ * @copyright Igor Lesik 2014
  *
  */
 #import "GameBoard.h"
@@ -35,7 +36,7 @@
     }
 }
 
--(int)setMark:(unsigned int)x Y:(unsigned int)y Mark:(MarkType)mark {
+-(BOOL)setMark:(unsigned int)x Y:(unsigned int)y Mark:(MarkType)mark {
 
     if (x >= GAME_BOARD_SIZE || y >= GAME_BOARD_SIZE)
         return 0;
