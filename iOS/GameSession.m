@@ -8,10 +8,11 @@
 
 @implementation GameSession
 
--(id)init:(GameBoard*)aBoard {
+-(id)init:(GameBoard*)aBoard Strategy:(GameStrategy*)aStrategy {
     self = [super init];
     if (self) {
         board = aBoard;//[[GameBoard alloc] init];
+        strategy = aStrategy;
         [self reset];
     }
     return self;
@@ -21,16 +22,16 @@
     [board reset];
 }
 
--(int)isGameOver {
-    return 1;
+-(GameStatus)isGameOver {
+    return [strategy checkGameIsOver:board];
 }
 
--(BOOL)setMark:(unsigned int)x Y:(unsigned int)y {
-    return [board setMark:x Y:y Mark:MARK_X];
+-(BOOL)setMark:(GameMove)move Mark:(MarkType)mark {
+    return [board setMark:move.x Y:move.y Mark:mark];
 }
 
--(int)makeResponse {
-    return 0;
+-(GameMove)makeResponse {
+    return [strategy makeMove:board];
 }
 
 @end

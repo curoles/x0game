@@ -5,14 +5,15 @@
  *
  */
 #import <objc/objc.h>
+#import "GameDefines.h"
 
 @protocol IGameSession
 
 -(void)reset;
--(int)isGameOver;
+-(BOOL)isGameOver;
 
--(BOOL)setMark:(unsigned int)x Y:(unsigned int)y;
--(int)makeResponse; 
+-(BOOL)setMark:(GameMove)move Mark:(MarkType)mark;
+-(GameMove)makeResponse;
 
 @end
 

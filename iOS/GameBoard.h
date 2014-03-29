@@ -4,12 +4,8 @@
  * @copyright Igor Lesik 2014
  *
  */
-
 #import <objc/Object.h>
-
-#define GAME_BOARD_SIZE (3)
-
-typedef enum MarkType {MARK_NONE = -1, MARK_X, MARK_O} MarkType;
+#import "GameDefines.h"
 
 // Tic-Tac-Toe game board
 //

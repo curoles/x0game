@@ -23,6 +23,9 @@
 }
 
 -(int)getMark:(unsigned int)x Y:(unsigned int)y {
+    if (x >= GAME_BOARD_SIZE || y >= GAME_BOARD_SIZE)
+        return -2;
+
     return field[x][y];
 }
 
@@ -41,16 +44,21 @@
     if (x >= GAME_BOARD_SIZE || y >= GAME_BOARD_SIZE)
         return 0;
 
-    if (mark == MARK_NONE)
+    if (mark == MARK_NONE) {
         return 0;
+    }
 
-    if ([self getMark:x Y:y] != MARK_NONE)
+    if ([self getMark:x Y:y] != MARK_NONE) {
+        //puts("field taken");
         return 0;
+    }
 
-    int isXturn = self.numberOfXmoves <= self.numberOfOmoves;
+    int isXturn = ([self numberOfXmoves] <= [self numberOfOmoves]);
 
-    if (mark == MARK_X && !isXturn)
+    if (mark == MARK_X && !isXturn) {
+        //puts("wrong turn for X");
         return 0;
+    }
 
     if (mark == MARK_O && isXturn)
         return 0;

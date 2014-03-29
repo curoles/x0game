@@ -1,7 +1,9 @@
 //#include <objc/objc.h>
 //#import <objc/Object.h>
 
+#import "GameDefines.h"
 #import "GameBoard.h"
+#import "GameStrategy.h"
 #import "GameBoard+ConsolePrinting.h"
 #import "GameSession.h"
 
@@ -10,23 +12,29 @@
 int main(void)
 {
     GameBoard* board = [[GameBoard alloc] init];
-    GameSession* game = [[GameSession alloc] init:board];
+    GameStrategy* strategy = [[GameStrategy alloc] init];
+    GameSession* game = [[GameSession alloc] init:board Strategy:strategy];
 
     [game reset];
 
     do {
-        unsigned int x, y;
+        GameMove uMove, resp;
         puts("place mark x,y:");
-        scanf("%u %u", &x, &y);
-        [game setMark:x Y:y];
+        scanf("%u %u", &uMove.x, &uMove.y);
+        if (![game setMark:uMove  Mark:MARK_X]) {
+            puts("Illegal move");
+            continue;
+        }
         if (![game isGameOver]) {
-            [game makeResponse];
+            resp = [game makeResponse];
+            [game setMark:resp Mark:MARK_O];
         }
         [board printBoard];
-    } while (!game.isGameOver);
+    } while (![game isGameOver]);
 
 
     [game free];
+    [strategy free];
     [board free];
 
     return 0;

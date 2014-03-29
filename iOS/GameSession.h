@@ -8,17 +8,19 @@
 
 #import "GameSessionProtocol.h"
 #import "GameBoard.h"
+#import "GameStrategy.h"
 
 @interface GameSession : Object <IGameSession> {
 GameBoard* board;// = [[GameBoard alloc] init];
+GameStrategy* strategy;
 }
 
--(id)init:(GameBoard*)board;
+-(id)init:(GameBoard*)board Strategy:(GameStrategy*)strategy;
 -(void)reset;
--(int)isGameOver;
+-(GameStatus)isGameOver;
 
--(BOOL)setMark:(unsigned int)x Y:(unsigned int)y;
--(int)makeResponse; 
+-(BOOL)setMark:(GameMove)move Mark:(MarkType)mark;
+-(GameMove)makeResponse; 
 
 @end
 
