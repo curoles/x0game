@@ -34,8 +34,8 @@
     return [board setMark:field.x Y:field.y Mark:mark];
 }
 
--(GameMove)makeResponse {
-    return [strategy makeMove:board];
+-(GameMove)makeResponse:(const GameEvaluation*)eval {
+    return [strategy makeMove:board Eval:eval];
 }
 
 @end

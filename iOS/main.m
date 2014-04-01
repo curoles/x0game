@@ -29,8 +29,13 @@ int main(void)
         }
         e = [game evaluateGame];
         if (![game isGameOver:&e]) {
-            GameMove resp = [game makeResponse];
-            [game setMark:resp.pos Mark:MARK_O];
+            puts("machine's turn...");
+            GameMove resp = [game makeResponse:&e];
+            printf("machine put %u,%u\n", resp.pos.x, resp.pos.y);
+            if (![game setMark:resp.pos Mark:MARK_O]) {
+                puts("Error: machine nade illegal move");
+                break;
+            }
             e = [game evaluateGame];
         }
         [board printBoard];

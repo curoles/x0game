@@ -13,7 +13,7 @@
 @interface GameStrategy : Object
 
 -(GameEvaluation)evaluateGame:(GameBoard*)board;
--(GameMove)makeMove:(GameBoard*)board;
+-(GameMove)makeMove:(GameBoard*)board Eval:(const GameEvaluation*)eval;
 
 @end
 

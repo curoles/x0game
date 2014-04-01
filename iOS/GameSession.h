@@ -21,7 +21,7 @@ GameStrategy* strategy;
 -(BOOL)isGameOver:(GameEvaluation*)e;
 
 -(BOOL)setMark:(FieldCoord)move Mark:(MarkType)mark;
--(GameMove)makeResponse; 
+-(GameMove)makeResponse:(const GameEvaluation*)eval; 
 
 @end
 
