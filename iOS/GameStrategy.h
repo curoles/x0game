@@ -12,7 +12,7 @@
 //
 @interface GameStrategy : Object
 
--(GameStatus)checkGameIsOver:(GameBoard*)board;
+-(GameEvaluation)evaluateGame:(GameBoard*)board;
 -(GameMove)makeMove:(GameBoard*)board;
 
 @end

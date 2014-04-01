@@ -17,9 +17,10 @@ GameStrategy* strategy;
 
 -(id)init:(GameBoard*)board Strategy:(GameStrategy*)strategy;
 -(void)reset;
--(GameStatus)isGameOver;
+-(GameEvaluation)evaluateGame;
+-(BOOL)isGameOver:(GameEvaluation*)e;
 
--(BOOL)setMark:(GameMove)move Mark:(MarkType)mark;
+-(BOOL)setMark:(FieldCoord)move Mark:(MarkType)mark;
 -(GameMove)makeResponse; 
 
 @end

@@ -10,9 +10,10 @@
 @protocol IGameSession
 
 -(void)reset;
--(BOOL)isGameOver;
+-(GameEvaluation)evaluateGame;
+-(BOOL)isGameOver:(GameEvaluation*)e;
 
--(BOOL)setMark:(GameMove)move Mark:(MarkType)mark;
+-(BOOL)setMark:(FieldCoord)move Mark:(MarkType)mark;
 -(GameMove)makeResponse;
 
 @end

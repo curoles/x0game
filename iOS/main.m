@@ -17,21 +17,35 @@ int main(void)
 
     [game reset];
 
+    GameEvaluation e;
+
     do {
-        GameMove uMove, resp;
+        FieldCoord uMove;
         puts("place mark x,y:");
         scanf("%u %u", &uMove.x, &uMove.y);
         if (![game setMark:uMove  Mark:MARK_X]) {
             puts("Illegal move");
             continue;
         }
-        if (![game isGameOver]) {
-            resp = [game makeResponse];
-            [game setMark:resp Mark:MARK_O];
+        e = [game evaluateGame];
+        if (![game isGameOver:&e]) {
+            GameMove resp = [game makeResponse];
+            [game setMark:resp.pos Mark:MARK_O];
+            e = [game evaluateGame];
         }
         [board printBoard];
-    } while (![game isGameOver]);
+    } while (![game isGameOver:&e]);
 
+    if (e.status == STATUS_USER_WON || e.status == STATUS_MACHINE_WON) {
+        MarkType markType = (e.status == STATUS_USER_WON)? MARK_X:MARK_O;
+        puts((e.status == STATUS_USER_WON)? "You won":"You lost");
+        puts("Strike:");
+        for (unsigned int n = 0; n < GAME_BOARD_SIZE; ++n) {
+            printf("(%u,%u) ", e.strike[markType].line[n].x,
+                e.strike[markType].line[n].y);
+        }
+        puts(".");
+    }
 
     [game free];
     [strategy free];

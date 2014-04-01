@@ -22,12 +22,16 @@
     [board reset];
 }
 
--(GameStatus)isGameOver {
-    return [strategy checkGameIsOver:board];
+-(GameEvaluation)evaluateGame {
+    return [strategy evaluateGame:board];
 }
 
--(BOOL)setMark:(GameMove)move Mark:(MarkType)mark {
-    return [board setMark:move.x Y:move.y Mark:mark];
+-(BOOL)isGameOver:(GameEvaluation*)e {
+    return e->status != STATUS_PLAYING;
+}
+
+-(BOOL)setMark:(FieldCoord)field Mark:(MarkType)mark {
+    return [board setMark:field.x Y:field.y Mark:mark];
 }
 
 -(GameMove)makeResponse {
